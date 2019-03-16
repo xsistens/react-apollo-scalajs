@@ -35,8 +35,8 @@ jobs:
 
       - save_cache: # special step to save the dependency cache
          key: dependency-cache-{{ checksum "package.json" }}
-	 paths:
-	   - ./node_modules
+         paths:
+           - ./node_modules
 
       - run: |
           curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
