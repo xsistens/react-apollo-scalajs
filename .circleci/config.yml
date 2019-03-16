@@ -39,8 +39,8 @@ jobs:
 
       - save_cache: # special step to save the dependency cache
          key: dependency-cache-{{ checksum "package.json" }}
-	 paths:
-	   - ./node_modules
+         paths:
+           - ./node_modules
 
       # Download and cache dependencies
       - restore_cache:
