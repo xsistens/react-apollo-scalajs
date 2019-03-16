@@ -33,14 +33,14 @@ jobs:
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: dependency-cache-{{ checksum "package.json" }}
 		  
-	  - run: 
-	      name: install-apollo
-		    command: npm install -g apollo@2.4.4	  
+      - run: 
+	  name: install-apollo
+	  command: npm install -g apollo@2.4.4	  
 		  
-	  - save_cache: # special step to save the dependency cache
-        key: dependency-cache-{{ checksum "package.json" }}
-        paths:
-          - ./node_modules
+      - save_cache: # special step to save the dependency cache
+         key: dependency-cache-{{ checksum "package.json" }}
+         paths:
+           - ./node_modules
 
       # Download and cache dependencies
       - restore_cache:
