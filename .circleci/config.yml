@@ -8,6 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
+      - image: circleci/node:9.11.2
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -23,6 +24,23 @@ jobs:
 
     steps:
       - checkout
+      
+      - run:
+		  name: update-npm
+          command: 'sudo npm install -g npm@latest'
+		  
+      - restore_cache: # special step to restore the dependency cache
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: dependency-cache-{{ checksum "package.json" }}
+		  
+	  - run: 
+	      name: install-apollo
+		    command: npm install -g apollo@2.4.4	  
+		  
+	  - save_cache: # special step to save the dependency cache
+        key: dependency-cache-{{ checksum "package.json" }}
+        paths:
+          - ./node_modules
 
       # Download and cache dependencies
       - restore_cache:
@@ -30,7 +48,7 @@ jobs:
             - v1-dependencies-{{ checksum "build.sbt" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-
+            
       - run: cat /dev/null | sbt test:compile
 
       - save_cache:
@@ -40,3 +58,4 @@ jobs:
 
       # run tests!
       - run: cat /dev/null | sbt test:test
+      - run: sbt ";set scalaJSStage in Global := FullOptStage; tests/test"
