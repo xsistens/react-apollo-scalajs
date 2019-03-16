@@ -8,7 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
-      - image: circleci/node:9.11.2
+      - image: circleci/node:8.0
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -23,6 +23,11 @@ jobs:
       TERM: dumb
 
     steps:
+      - run:
+          name: "Checking Versions"
+          command: |
+            node --version
+            npm --version
       - checkout
       
       - run:
