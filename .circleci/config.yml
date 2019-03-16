@@ -8,6 +8,7 @@ jobs:
     docker:
       # specify the version you desire here
       - image: circleci/openjdk:8-jdk
+      - image: circleci/node:9.11.2
 
     working_directory: ~/repo
 
@@ -19,6 +20,23 @@ jobs:
     steps:
     
       - checkout
+      
+      - run:
+		  name: update-npm
+          command: 'sudo npm install -g npm@latest'
+		  
+      - restore_cache: # special step to restore the dependency cache
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: dependency-cache-{{ checksum "package.json" }}
+		  
+	  - run: 
+	      name: install-apollo
+		    command: npm install -g apollo@2.4.4	  
+		  
+	  - save_cache: # special step to save the dependency cache
+        key: dependency-cache-{{ checksum "package.json" }}
+        paths:
+          - ./node_modules
 
       - run: |
           curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
