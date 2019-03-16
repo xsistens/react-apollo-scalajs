@@ -26,7 +26,7 @@ jobs:
       - checkout
       
       - run:
-		  name: update-npm
+          name: update-npm
           command: 'sudo npm install -g npm@latest'
 		  
       - restore_cache: # special step to restore the dependency cache
