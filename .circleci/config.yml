@@ -36,19 +36,6 @@ jobs:
       - run: |
           npm -v
 
-      - restore_cache: # special step to restore the dependency cache
-          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
-          key: dependency-cache-{{ checksum "package.json" }}
-
-      - run: 
-          name: install-apollo
-          command: npm i -g apollo	  
-
-      - save_cache: # special step to save the dependency cache
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-
       # Download and cache dependencies
       - restore_cache:
           keys:
@@ -62,6 +49,19 @@ jobs:
           paths:
             - ~/.m2
           key: v1-dependencies--{{ checksum "build.sbt" }}
+          
+       - restore_cache: # special step to restore the dependency cache
+          # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
+          key: dependency-cache-{{ checksum "package.json" }}
+
+      - run: 
+          name: install-apollo
+          command: npm i -g apollo	  
+
+      - save_cache: # special step to save the dependency cache
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
 
       # run tests!
       - run: cat /dev/null | sbt test:test
