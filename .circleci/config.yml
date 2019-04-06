@@ -17,12 +17,12 @@ jobs:
       TERM: dumb
 
     steps:
-    
+
       - checkout
 
       - run: |
           curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-          
+
       - run:
           name: Setup Environment Variables
           command: |
@@ -40,9 +40,9 @@ jobs:
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: dependency-cache-{{ checksum "package.json" }}
 
-      - run: 
+      - run:
           name: install-apollo
-          command: npm i -g apollo	  
+          command: npm i -g apollo
 
       - save_cache: # special step to save the dependency cache
           key: dependency-cache-{{ checksum "package.json" }}
@@ -51,7 +51,7 @@ jobs:
 
       - run: |
           curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
-          
+
       - run:
           name: Setup Environment Variables
           command: |
@@ -71,21 +71,21 @@ jobs:
             - v1-dependencies-{{ checksum "build.sbt" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-            
+
       - run: cat /dev/null | sbt test:compile
 
       - save_cache:
           paths:
             - ~/.m2
           key: v1-dependencies--{{ checksum "build.sbt" }}
-          
-       - restore_cache: # special step to restore the dependency cache
+
+      - restore_cache: # special step to restore the dependency cache
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
           key: dependency-cache-{{ checksum "package.json" }}
 
-      - run: 
+      - run:
           name: install-apollo
-          command: npm i -g apollo	  
+          command: npm i -g apollo
 
       - save_cache: # special step to save the dependency cache
           key: dependency-cache-{{ checksum "package.json" }}
