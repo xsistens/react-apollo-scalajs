@@ -45,7 +45,9 @@ jobs:
 
       - run:
           name: install-apollo
-          command: npm i -g apollo
+          command: |
+            npm i -g apollo
+            echo 'export PATH=/home/circleci/.nvm/versions/node/v10.15.3/lib/node_modules/apollo/bin/run:$PATH' >> $BASH_ENV
 
       - run: cat /dev/null | sbt test:compile
 
