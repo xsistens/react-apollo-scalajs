@@ -19,17 +19,19 @@ jobs:
     steps:
     
       - checkout
-    
-      - run:
-          name: "Install nodejs and npm"
-          command: | 
-            sudo apt install nodejs npm
-            node --version
-            npm --version
       
-      - run:
-          name: update-npm
-          command: 'sudo npm install -g npm@latest'
+      - run: |	
+          curl -o- https://raw.githubusercontent.com/creationix/nvm/master/install.sh | bash
+          
+      - run: |
+            echo 'export NVM_DIR="/opt/circleci/.nvm"' >> $BASH_ENV
+            echo ' [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"' >> $BASH_ENV
+      - run: |
+          nvm install v10
+          node -v
+          nvm alias default v10
+      - run: |
+          node -v
  
       - restore_cache: # special step to restore the dependency cache
           # Read about caching dependencies: https://circleci.com/docs/2.0/caching/
