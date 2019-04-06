@@ -42,7 +42,7 @@ jobs:
 
       - run: 
           name: install-apollo
-          command: npm install -g apollo@2.4.4	  
+          command: npm i -g apollo	  
 
       - save_cache: # special step to save the dependency cache
           key: dependency-cache-{{ checksum "package.json" }}
